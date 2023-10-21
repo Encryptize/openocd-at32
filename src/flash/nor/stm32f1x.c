@@ -970,6 +970,11 @@ static int stm32x_probe(struct flash_bank *bank)
 		stm32x_info->default_rdp = 0xAA;
 		stm32x_info->can_load_options = true;
 		break;
+    case 0x1C5: /* AT32 */
+        page_size = 1024;
+        stm32x_info->ppage_size = 4;
+        max_flash_size_in_kb = 128;
+        break;
 	default:
 		LOG_WARNING("Cannot identify target as a STM32 family.");
 		return ERROR_FAIL;
@@ -1131,6 +1136,10 @@ static int get_stm32x_info(struct flash_bank *bank, struct command_invocation *c
 			break;
 		}
 		break;
+
+    case 0x1C5:
+        device_str = "AT32F415CxT7";
+        break;
 
 	case 0x412:
 		device_str = "STM32F10x (Low Density)";
